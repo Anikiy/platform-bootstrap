@@ -4,3 +4,4 @@ namespace: argocd
 resources:
   - root-app.yaml
   - argocd-self.yaml
+  - cluster-registry-app.yaml

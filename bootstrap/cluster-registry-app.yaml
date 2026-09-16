@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-registry
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/Anikiy/platform-bootstrap   # ← свой username!
+    targetRevision: main
+    path: clusters
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
