@@ -1,16 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root
+  name: argocd
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /argocd
 spec:
   project: platform
   source:
-    repoURL: https://github.com/Anikiy/platform-bootstrap.git
+    repoURL: https://github.com/Anikiy/platform-bootstrap
     targetRevision: main
-    path: apps/                 # здесь лежат дочерние Application-манифесты
+    path: argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -20,4 +22,3 @@ spec:
       selfHeal: true
     syncOptions:
       - ServerSideApply=true
-      - CreateNamespace=false
