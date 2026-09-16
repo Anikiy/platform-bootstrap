@@ -6,8 +6,9 @@ resources:
   - base/install.yaml
   - resources/ingress.yaml
   - resources/projects/platform-project.yaml
-
+  
 patches:
   - path: patches/argocd-cm.yaml
   - path: patches/argocd-rbac-cm.yaml
   - path: patches/argocd-cmd-params-cm.yaml
+  - path: patches/argocd-redis-deployment.yaml
