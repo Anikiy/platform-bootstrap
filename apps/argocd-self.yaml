@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/<USER>/argocd-install.git
+    targetRevision: main
+    path: argocd        # ← папка с kustomization.yaml, где лежат манифесты самого Argo CD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # Обязательно! CRD Argo CD больше 1.5 МБ,
+      # client-side apply упрётся в etcd limit
+      - ServerSideApply=true

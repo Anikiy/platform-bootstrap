@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # URL для CLI/UI/redirect-ов
+  url: https://argocd.local
+
+  # Заголовок в UI — удобно отличать dev от prod
+  application.instanceLabelKey: argocd.argoproj.io/instance
+
+  # Отключаем built-in admin (после настройки SSO).
+  # Пока SSO не настроен — закомментируй строку ниже.
+  # admin.enabled: "false"
+
+  # Репозиторий по умолчанию — чтобы не регистрировать руками
+  repositories: |
+    - url: https://github.com/Anikiy/platform-bootstrap.git
+      type: git
+
+  # Таймауты reconcile (для локального кластера можно уменьшить)
+  timeout.reconciliation: 180s
+  timeout.hard.reconciliation: 0s
